@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nfc_card/pages/duel.dart';
 import 'package:nfc_card/pages/my_home.dart';
 
 class App extends StatelessWidget {
@@ -19,7 +20,8 @@ class App extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: DuelPage(),
+      // home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
