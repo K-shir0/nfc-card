@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nfc_card/models/duel_state.dart';
 
-class DuelPage extends StatelessWidget {
+class DuelPage extends HookWidget {
   final duelStateNotifierProvider = StateNotifierProvider<DuelStateNotifier, DuelState>(
     (refs) => DuelStateNotifier(),
   );
