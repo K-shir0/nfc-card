@@ -9,6 +9,7 @@ part of 'duel_state.dart';
 _$_DuelState _$_$_DuelStateFromJson(Map<String, dynamic> json) {
   return _$_DuelState(
     turn: json['turn'] as int? ?? 0,
+    phase: json['phase'] as int? ?? 0,
     player0Deck: (json['player0Deck'] as List<dynamic>?)
             ?.map((e) => Card.fromJson(e as Map<String, dynamic>))
             .toList() ??
@@ -45,6 +46,7 @@ _$_DuelState _$_$_DuelStateFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$_$_DuelStateToJson(_$_DuelState instance) =>
     <String, dynamic>{
       'turn': instance.turn,
+      'phase': instance.phase,
       'player0Deck': instance.player0Deck,
       'player1Deck': instance.player1Deck,
       'monsterCardsPlacedOnTheFieldByPlayer0':

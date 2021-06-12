@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nfc_card/pages/duel.dart';
-import 'package:nfc_card/pages/my_home.dart';
 
 class App extends StatelessWidget {
   // This widget is the root of your application.
