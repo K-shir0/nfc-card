@@ -40,6 +40,7 @@ _$_DuelState _$_$_DuelStateFromJson(Map<String, dynamic> json) {
                 as Map<String, dynamic>),
     battlesWonByPlayer0: json['battlesWonByPlayer0'] as int? ?? 0,
     battlesWonByPlayer1: json['battlesWonByPlayer1'] as int? ?? 0,
+    gameEndFlg: json['gameEndFlg'] as bool? ?? false,
   );
 }
 
@@ -59,4 +60,5 @@ Map<String, dynamic> _$_$_DuelStateToJson(_$_DuelState instance) =>
           instance.equipmentCardsPlacedOnTheFieldByPlayer1,
       'battlesWonByPlayer0': instance.battlesWonByPlayer0,
       'battlesWonByPlayer1': instance.battlesWonByPlayer1,
+      'gameEndFlg': instance.gameEndFlg,
     };

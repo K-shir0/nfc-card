@@ -14,30 +14,39 @@ class DuelState with _$DuelState {
      * ターン
      */
     @Default(0) int turn,
+
     /*
      * フェイズ
      */
     @Default(0) int phase,
+
     /*
      * デッキ
      */
     @Default([]) List<Card> player0Deck,
     @Default([]) List<Card> player1Deck,
+
     /*
      * フィールドに設置した、モンスターカード
      */
     Card? monsterCardsPlacedOnTheFieldByPlayer0,
     Card? monsterCardsPlacedOnTheFieldByPlayer1,
+
     /*
      * フィールドに設置した、装備カード
      */
     Card? equipmentCardsPlacedOnTheFieldByPlayer0,
     Card? equipmentCardsPlacedOnTheFieldByPlayer1,
+
     /*
      * バトル勝利回数
      */
     @Default(0) int battlesWonByPlayer0,
     @Default(0) int battlesWonByPlayer1,
+    /*
+     * ゲームエンド
+     */
+    @Default(false) bool gameEndFlg,
   }) = _DuelState;
 
   factory DuelState.create() {
@@ -76,12 +85,12 @@ class DuelStateNotifier extends StateNotifier<DuelState> {
 
     if (playerNumber == 1) {
       for (int i = 0; i < state.player1Deck.length; i++) {
-        if (state.player1Deck[i].id == cardId) return state.player0Deck[i];
+        if (state.player1Deck[i].id == cardId) return state.player1Deck[i];
       }
     }
   }
 
-  removeAt(String cardId) {
+  void removeAt(String cardId) {
     final player0deck = [...state.player0Deck];
     final player1deck = [...state.player1Deck];
 
@@ -125,6 +134,54 @@ class DuelStateNotifier extends StateNotifier<DuelState> {
 
     // フェイズを進める
     state = state.copyWith(phase: phase + 1);
+
+    // 対戦処理
+    if (playerTurn == 1 && state.phase == 2) {
+      final player0AttackSum =
+          (state.monsterCardsPlacedOnTheFieldByPlayer0?.offensiveAbility ?? 0) +
+              (state.equipmentCardsPlacedOnTheFieldByPlayer0
+                      ?.equipmentAttackPower ??
+                  0);
+      final player1AttackSum =
+          (state.monsterCardsPlacedOnTheFieldByPlayer1?.offensiveAbility ?? 0) +
+              (state.equipmentCardsPlacedOnTheFieldByPlayer1
+                      ?.equipmentAttackPower ??
+                  0);
+
+      if (player0AttackSum > player1AttackSum) {
+        state = state.copyWith(battlesWonByPlayer0: state.battlesWonByPlayer0 + 1);
+      }
+      if (player1AttackSum > player0AttackSum) {
+        state = state.copyWith(battlesWonByPlayer1: state.battlesWonByPlayer1 + 1);
+      }
+
+      if (state.turn == 6 || state.battlesWonByPlayer1 >= 2 || state.battlesWonByPlayer0 >= 2) {
+        // ゲーム終了のフラグセット
+        state = state.copyWith(gameEndFlg: true);
+
+        if (state.battlesWonByPlayer0 > state.battlesWonByPlayer1) {
+          print("1Pの勝ち");
+        }
+
+        if (state.battlesWonByPlayer1 > state.battlesWonByPlayer0) {
+          print("2Pの勝ち");
+        } else {
+          print("引き分け");
+        }
+      }
+
+      // カードのセットをリセット
+      state = state.copyWith(
+        monsterCardsPlacedOnTheFieldByPlayer0: null,
+        monsterCardsPlacedOnTheFieldByPlayer1: null,
+        equipmentCardsPlacedOnTheFieldByPlayer0: null,
+        equipmentCardsPlacedOnTheFieldByPlayer1: null,
+      );
+    }
+
+    if (state.phase == 2) {
+      state = state.copyWith(phase: 0, turn: state.turn + 1);
+    }
   }
 
   void setMonsterCard(int playerNumber, Card card) {

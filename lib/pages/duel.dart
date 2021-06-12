@@ -36,6 +36,17 @@ class DuelPage extends HookWidget {
       body: Stack(
         children: [
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(' '),
+              const Text(' '),
+              Text('turn: ${provider.turn}'),
+              Text('phase: ${provider.phase}'),
+              Text('0pWin: ${provider.battlesWonByPlayer0}'),
+              Text('1pWin: ${provider.battlesWonByPlayer1}'),
+            ],
+          ),
+          Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Row(

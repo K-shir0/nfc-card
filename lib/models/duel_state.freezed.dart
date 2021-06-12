@@ -30,7 +30,8 @@ class _$DuelStateTearOff {
       Card? equipmentCardsPlacedOnTheFieldByPlayer0,
       Card? equipmentCardsPlacedOnTheFieldByPlayer1,
       int battlesWonByPlayer0 = 0,
-      int battlesWonByPlayer1 = 0}) {
+      int battlesWonByPlayer1 = 0,
+      bool gameEndFlg = false}) {
     return _DuelState(
       turn: turn,
       phase: phase,
@@ -46,6 +47,7 @@ class _$DuelStateTearOff {
           equipmentCardsPlacedOnTheFieldByPlayer1,
       battlesWonByPlayer0: battlesWonByPlayer0,
       battlesWonByPlayer1: battlesWonByPlayer1,
+      gameEndFlg: gameEndFlg,
     );
   }
 
@@ -91,6 +93,10 @@ mixin _$DuelState {
      */
   int get battlesWonByPlayer0 => throw _privateConstructorUsedError;
   int get battlesWonByPlayer1 => throw _privateConstructorUsedError;
+  /*
+     * ゲームエンド
+     */
+  bool get gameEndFlg => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -112,7 +118,8 @@ abstract class $DuelStateCopyWith<$Res> {
       Card? equipmentCardsPlacedOnTheFieldByPlayer0,
       Card? equipmentCardsPlacedOnTheFieldByPlayer1,
       int battlesWonByPlayer0,
-      int battlesWonByPlayer1});
+      int battlesWonByPlayer1,
+      bool gameEndFlg});
 
   $CardCopyWith<$Res>? get monsterCardsPlacedOnTheFieldByPlayer0;
   $CardCopyWith<$Res>? get monsterCardsPlacedOnTheFieldByPlayer1;
@@ -140,6 +147,7 @@ class _$DuelStateCopyWithImpl<$Res> implements $DuelStateCopyWith<$Res> {
     Object? equipmentCardsPlacedOnTheFieldByPlayer1 = freezed,
     Object? battlesWonByPlayer0 = freezed,
     Object? battlesWonByPlayer1 = freezed,
+    Object? gameEndFlg = freezed,
   }) {
     return _then(_value.copyWith(
       turn: turn == freezed
@@ -186,6 +194,10 @@ class _$DuelStateCopyWithImpl<$Res> implements $DuelStateCopyWith<$Res> {
           ? _value.battlesWonByPlayer1
           : battlesWonByPlayer1 // ignore: cast_nullable_to_non_nullable
               as int,
+      gameEndFlg: gameEndFlg == freezed
+          ? _value.gameEndFlg
+          : gameEndFlg // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 
@@ -258,7 +270,8 @@ abstract class _$DuelStateCopyWith<$Res> implements $DuelStateCopyWith<$Res> {
       Card? equipmentCardsPlacedOnTheFieldByPlayer0,
       Card? equipmentCardsPlacedOnTheFieldByPlayer1,
       int battlesWonByPlayer0,
-      int battlesWonByPlayer1});
+      int battlesWonByPlayer1,
+      bool gameEndFlg});
 
   @override
   $CardCopyWith<$Res>? get monsterCardsPlacedOnTheFieldByPlayer0;
@@ -291,6 +304,7 @@ class __$DuelStateCopyWithImpl<$Res> extends _$DuelStateCopyWithImpl<$Res>
     Object? equipmentCardsPlacedOnTheFieldByPlayer1 = freezed,
     Object? battlesWonByPlayer0 = freezed,
     Object? battlesWonByPlayer1 = freezed,
+    Object? gameEndFlg = freezed,
   }) {
     return _then(_DuelState(
       turn: turn == freezed
@@ -337,6 +351,10 @@ class __$DuelStateCopyWithImpl<$Res> extends _$DuelStateCopyWithImpl<$Res>
           ? _value.battlesWonByPlayer1
           : battlesWonByPlayer1 // ignore: cast_nullable_to_non_nullable
               as int,
+      gameEndFlg: gameEndFlg == freezed
+          ? _value.gameEndFlg
+          : gameEndFlg // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -354,7 +372,8 @@ class _$_DuelState with DiagnosticableTreeMixin implements _DuelState {
       this.equipmentCardsPlacedOnTheFieldByPlayer0,
       this.equipmentCardsPlacedOnTheFieldByPlayer1,
       this.battlesWonByPlayer0 = 0,
-      this.battlesWonByPlayer1 = 0});
+      this.battlesWonByPlayer1 = 0,
+      this.gameEndFlg = false});
 
   factory _$_DuelState.fromJson(Map<String, dynamic> json) =>
       _$_$_DuelStateFromJson(json);
@@ -403,10 +422,16 @@ class _$_DuelState with DiagnosticableTreeMixin implements _DuelState {
   @JsonKey(defaultValue: 0)
   @override
   final int battlesWonByPlayer1;
+  @JsonKey(defaultValue: false)
+  @override
+  /*
+     * ゲームエンド
+     */
+  final bool gameEndFlg;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'DuelState(turn: $turn, phase: $phase, player0Deck: $player0Deck, player1Deck: $player1Deck, monsterCardsPlacedOnTheFieldByPlayer0: $monsterCardsPlacedOnTheFieldByPlayer0, monsterCardsPlacedOnTheFieldByPlayer1: $monsterCardsPlacedOnTheFieldByPlayer1, equipmentCardsPlacedOnTheFieldByPlayer0: $equipmentCardsPlacedOnTheFieldByPlayer0, equipmentCardsPlacedOnTheFieldByPlayer1: $equipmentCardsPlacedOnTheFieldByPlayer1, battlesWonByPlayer0: $battlesWonByPlayer0, battlesWonByPlayer1: $battlesWonByPlayer1)';
+    return 'DuelState(turn: $turn, phase: $phase, player0Deck: $player0Deck, player1Deck: $player1Deck, monsterCardsPlacedOnTheFieldByPlayer0: $monsterCardsPlacedOnTheFieldByPlayer0, monsterCardsPlacedOnTheFieldByPlayer1: $monsterCardsPlacedOnTheFieldByPlayer1, equipmentCardsPlacedOnTheFieldByPlayer0: $equipmentCardsPlacedOnTheFieldByPlayer0, equipmentCardsPlacedOnTheFieldByPlayer1: $equipmentCardsPlacedOnTheFieldByPlayer1, battlesWonByPlayer0: $battlesWonByPlayer0, battlesWonByPlayer1: $battlesWonByPlayer1, gameEndFlg: $gameEndFlg)';
   }
 
   @override
@@ -427,7 +452,8 @@ class _$_DuelState with DiagnosticableTreeMixin implements _DuelState {
       ..add(DiagnosticsProperty('equipmentCardsPlacedOnTheFieldByPlayer1',
           equipmentCardsPlacedOnTheFieldByPlayer1))
       ..add(DiagnosticsProperty('battlesWonByPlayer0', battlesWonByPlayer0))
-      ..add(DiagnosticsProperty('battlesWonByPlayer1', battlesWonByPlayer1));
+      ..add(DiagnosticsProperty('battlesWonByPlayer1', battlesWonByPlayer1))
+      ..add(DiagnosticsProperty('gameEndFlg', gameEndFlg));
   }
 
   @override
@@ -448,8 +474,7 @@ class _$_DuelState with DiagnosticableTreeMixin implements _DuelState {
                 const DeepCollectionEquality().equals(
                     other.monsterCardsPlacedOnTheFieldByPlayer0,
                     monsterCardsPlacedOnTheFieldByPlayer0)) &&
-            (identical(other.monsterCardsPlacedOnTheFieldByPlayer1,
-                    monsterCardsPlacedOnTheFieldByPlayer1) ||
+            (identical(other.monsterCardsPlacedOnTheFieldByPlayer1, monsterCardsPlacedOnTheFieldByPlayer1) ||
                 const DeepCollectionEquality().equals(
                     other.monsterCardsPlacedOnTheFieldByPlayer1,
                     monsterCardsPlacedOnTheFieldByPlayer1)) &&
@@ -468,7 +493,10 @@ class _$_DuelState with DiagnosticableTreeMixin implements _DuelState {
                     .equals(other.battlesWonByPlayer0, battlesWonByPlayer0)) &&
             (identical(other.battlesWonByPlayer1, battlesWonByPlayer1) ||
                 const DeepCollectionEquality()
-                    .equals(other.battlesWonByPlayer1, battlesWonByPlayer1)));
+                    .equals(other.battlesWonByPlayer1, battlesWonByPlayer1)) &&
+            (identical(other.gameEndFlg, gameEndFlg) ||
+                const DeepCollectionEquality()
+                    .equals(other.gameEndFlg, gameEndFlg)));
   }
 
   @override
@@ -487,7 +515,8 @@ class _$_DuelState with DiagnosticableTreeMixin implements _DuelState {
       const DeepCollectionEquality()
           .hash(equipmentCardsPlacedOnTheFieldByPlayer1) ^
       const DeepCollectionEquality().hash(battlesWonByPlayer0) ^
-      const DeepCollectionEquality().hash(battlesWonByPlayer1);
+      const DeepCollectionEquality().hash(battlesWonByPlayer1) ^
+      const DeepCollectionEquality().hash(gameEndFlg);
 
   @JsonKey(ignore: true)
   @override
@@ -511,7 +540,8 @@ abstract class _DuelState implements DuelState {
       Card? equipmentCardsPlacedOnTheFieldByPlayer0,
       Card? equipmentCardsPlacedOnTheFieldByPlayer1,
       int battlesWonByPlayer0,
-      int battlesWonByPlayer1}) = _$_DuelState;
+      int battlesWonByPlayer1,
+      bool gameEndFlg}) = _$_DuelState;
 
   factory _DuelState.fromJson(Map<String, dynamic> json) =
       _$_DuelState.fromJson;
@@ -558,6 +588,11 @@ abstract class _DuelState implements DuelState {
   int get battlesWonByPlayer0 => throw _privateConstructorUsedError;
   @override
   int get battlesWonByPlayer1 => throw _privateConstructorUsedError;
+  @override
+  /*
+     * ゲームエンド
+     */
+  bool get gameEndFlg => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$DuelStateCopyWith<_DuelState> get copyWith =>
