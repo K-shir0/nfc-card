@@ -149,21 +149,23 @@ class DuelStateNotifier extends StateNotifier<DuelState> {
                   0);
 
       if (player0AttackSum > player1AttackSum) {
-        state = state.copyWith(battlesWonByPlayer0: state.battlesWonByPlayer0 + 1);
+        state =
+            state.copyWith(battlesWonByPlayer0: state.battlesWonByPlayer0 + 1);
       }
       if (player1AttackSum > player0AttackSum) {
-        state = state.copyWith(battlesWonByPlayer1: state.battlesWonByPlayer1 + 1);
+        state =
+            state.copyWith(battlesWonByPlayer1: state.battlesWonByPlayer1 + 1);
       }
 
-      if (state.turn == 6 || state.battlesWonByPlayer1 >= 2 || state.battlesWonByPlayer0 >= 2) {
+      if (state.turn == 6 ||
+          state.battlesWonByPlayer1 >= 2 ||
+          state.battlesWonByPlayer0 >= 2) {
         // ゲーム終了のフラグセット
         state = state.copyWith(gameEndFlg: true);
 
         if (state.battlesWonByPlayer0 > state.battlesWonByPlayer1) {
           print("1Pの勝ち");
-        }
-
-        if (state.battlesWonByPlayer1 > state.battlesWonByPlayer0) {
+        } else if (state.battlesWonByPlayer1 > state.battlesWonByPlayer0) {
           print("2Pの勝ち");
         } else {
           print("引き分け");
