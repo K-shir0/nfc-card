@@ -31,6 +31,14 @@ class DuelPage extends HookWidget {
 
     final playerDecks = [provider.player0Deck, provider.player1Deck].toList();
 
+    String winText() {
+      if (provider.winFlag == 0) return "1Pの勝利";
+      if (provider.winFlag == 1) return "2Pの勝利";
+      if (provider.winFlag == -1) return "引き分け";
+
+      return "";
+    }
+
     return Scaffold(
       body: Stack(
         children: [
@@ -47,7 +55,7 @@ class DuelPage extends HookWidget {
           ),
           if (provider.phase >= 6)
             Center(
-              child: Text("Win"),
+              child: Text(winText()),
             ),
           if (provider.phase >= 4)
             GestureDetector(
@@ -136,10 +144,10 @@ class DuelPage extends HookWidget {
                         null)
                       provider.phase >= 5
                           ? CardWidget(
-                        card: provider
-                            .equipmentCardsPlacedOnTheFieldByPlayer0,
-                        isValue1Visible: false,
-                      )
+                              card: provider
+                                  .equipmentCardsPlacedOnTheFieldByPlayer0,
+                              isValue1Visible: false,
+                            )
                           : const CardWidget(),
                   ],
                 ),

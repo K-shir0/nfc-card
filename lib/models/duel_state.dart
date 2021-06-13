@@ -153,19 +153,19 @@ class DuelStateNotifier extends StateNotifier<DuelState> {
         state = state.copyWith(gameEndFlg: true);
 
         if (state.battlesWonByPlayer0 > state.battlesWonByPlayer1) {
-          print("1Pの勝ち");
+          state = state.copyWith(winFlag: 0);
         } else if (state.battlesWonByPlayer1 > state.battlesWonByPlayer0) {
-          print("2Pの勝ち");
+          state = state.copyWith(winFlag: 1);
         } else {
-          print("引き分け");
+          state = state.copyWith(winFlag: -1);
         }
       }
     }
 
     // ・勝敗判定を表示する。 phase6
 
-    // リセット
-    if (phase == 7) {
+    // 次のターンに進むため盤面をリセットする処理
+    if (phase == 7 && !state.gameEndFlg) {
       // カードのセットをリセット
       state = state.copyWith(
         monsterCardsPlacedOnTheFieldByPlayer0: null,
