@@ -45,10 +45,15 @@ class DuelPage extends HookWidget {
               Text('1pWin: ${provider.battlesWonByPlayer1}'),
             ],
           ),
+          if (provider.phase >= 6)
+            Center(
+              child: Text("Win"),
+            ),
           if (provider.phase >= 4)
             GestureDetector(
               onTap: () {
                 print("次のフェイズに進める");
+                context.read(duelStateNotifierProvider.notifier).nextPhase();
               },
             ),
           // 手札の表示
@@ -75,9 +80,15 @@ class DuelPage extends HookWidget {
                 ),
             ],
           ),
+          /*
+           * 設置されたカードの表示
+           */
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              /*
+               * 2P側
+               */
               RotatedBox(
                 quarterTurns: 2,
                 child: Padding(
@@ -87,7 +98,7 @@ class DuelPage extends HookWidget {
                     children: [
                       if (provider.monsterCardsPlacedOnTheFieldByPlayer1 !=
                           null)
-                        provider.phase >= 4
+                        provider.phase >= 5
                             ? CardWidget(
                                 card: provider
                                     .monsterCardsPlacedOnTheFieldByPlayer1,
@@ -95,18 +106,27 @@ class DuelPage extends HookWidget {
                             : const CardWidget(),
                       if (provider.equipmentCardsPlacedOnTheFieldByPlayer1 !=
                           null)
-                        const CardWidget(),
+                        provider.phase >= 5
+                            ? CardWidget(
+                                card: provider
+                                    .equipmentCardsPlacedOnTheFieldByPlayer1,
+                                isValue1Visible: false,
+                              )
+                            : CardWidget(),
                     ],
                   ),
                 ),
               ),
+              /*
+               * 1P側
+               */
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     if (provider.monsterCardsPlacedOnTheFieldByPlayer0 != null)
-                      provider.phase >= 4
+                      provider.phase >= 5
                           ? CardWidget(
                               card: provider
                                   .monsterCardsPlacedOnTheFieldByPlayer0,
@@ -114,7 +134,13 @@ class DuelPage extends HookWidget {
                           : const CardWidget(),
                     if (provider.equipmentCardsPlacedOnTheFieldByPlayer0 !=
                         null)
-                      const CardWidget(),
+                      provider.phase >= 5
+                          ? CardWidget(
+                        card: provider
+                            .equipmentCardsPlacedOnTheFieldByPlayer0,
+                        isValue1Visible: false,
+                      )
+                          : const CardWidget(),
                   ],
                 ),
               ),
@@ -128,9 +154,10 @@ class DuelPage extends HookWidget {
 
 class CardWidget extends StatelessWidget {
   final Function()? onTapHandler;
+  final bool isValue1Visible;
   final gameCard.Card? card;
 
-  const CardWidget({this.onTapHandler, this.card});
+  const CardWidget({this.onTapHandler, this.card, this.isValue1Visible = true});
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +170,10 @@ class CardWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('${card?.offensiveAbility ?? ''}'),
+            if (isValue1Visible)
+              Text('${card?.offensiveAbility ?? ''}')
+            else
+              const Text(''),
             Text('${card?.equipmentAttackPower ?? ''}'),
           ],
         ),

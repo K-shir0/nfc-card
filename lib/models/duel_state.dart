@@ -48,6 +48,11 @@ class DuelState with _$DuelState {
      */
     @Default(0) int battlesWonByPlayer0,
     @Default(0) int battlesWonByPlayer1,
+
+    /*
+     * どっちが勝利したかのフラグ
+     */
+    @Default(-1) int winFlag,
     /*
      * ゲームエンド
      */
@@ -112,6 +117,70 @@ class DuelStateNotifier extends StateNotifier<DuelState> {
 
   void nextPhase() {
     state = state.copyWith(phase: state.phase + 1);
+
+    final phase = state.phase;
+
+    // ・同時にモンスター用カードの全貌と装備用のカードのステータスのみを表示する。 phase5
+
+    if (phase == 5) {
+      // 1Pの攻撃力合計
+      final player0AttackSum =
+          (state.monsterCardsPlacedOnTheFieldByPlayer0?.offensiveAbility ?? 0) +
+              (state.equipmentCardsPlacedOnTheFieldByPlayer0
+                  ?.equipmentAttackPower ??
+                  0);
+
+      // 2Pの攻撃量合計
+      final player1AttackSum =
+          (state.monsterCardsPlacedOnTheFieldByPlayer1?.offensiveAbility ?? 0) +
+              (state.equipmentCardsPlacedOnTheFieldByPlayer1
+                  ?.equipmentAttackPower ??
+                  0);
+
+      if (player0AttackSum > player1AttackSum) {
+        state =
+            state.copyWith(battlesWonByPlayer0: state.battlesWonByPlayer0 + 1, winFlag: 0);
+      }
+      if (player1AttackSum > player0AttackSum) {
+        state =
+            state.copyWith(battlesWonByPlayer1: state.battlesWonByPlayer1 + 1, winFlag: 1);
+      }
+
+      if (state.turn == 6 ||
+          state.battlesWonByPlayer1 >= 2 ||
+          state.battlesWonByPlayer0 >= 2) {
+        // ゲーム終了のフラグセット
+        state = state.copyWith(gameEndFlg: true);
+
+        if (state.battlesWonByPlayer0 > state.battlesWonByPlayer1) {
+          print("1Pの勝ち");
+        } else if (state.battlesWonByPlayer1 > state.battlesWonByPlayer0) {
+          print("2Pの勝ち");
+        } else {
+          print("引き分け");
+        }
+      }
+    }
+
+    // ・勝敗判定を表示する。 phase6
+
+    // リセット
+    if (phase == 7) {
+      // カードのセットをリセット
+      state = state.copyWith(
+        monsterCardsPlacedOnTheFieldByPlayer0: null,
+        monsterCardsPlacedOnTheFieldByPlayer1: null,
+        equipmentCardsPlacedOnTheFieldByPlayer0: null,
+        equipmentCardsPlacedOnTheFieldByPlayer1: null,
+        winFlag: -1,
+        phase: 0,
+        turn: state.turn + 1,
+        playerTurn: (state.turn + 1) % 2
+      );
+    }
+    // ・現在のトータル戦績を表示する。 phase7
+
+
   }
 
   void onCardClickHandler(String cardId) {
@@ -131,96 +200,42 @@ class DuelStateNotifier extends StateNotifier<DuelState> {
    */
 
     // モンスターカードをセット
+
     if (phase == 0) {
-      final card = getById(0, cardId);
+      final card = getById(state.playerTurn, cardId);
       if (card == null) return;
-      setMonsterCard(0, card);
+      setMonsterCard(state.playerTurn, card);
     }
-    ;
 
     // 装備カードをセット
     if (phase == 1) {
-      final card = getById(0, cardId);
+      final card = getById(state.playerTurn, cardId);
       if (card == null) return;
-      setEquipmentCard(0, card);
+      setEquipmentCard(state.playerTurn, card);
 
-      state = state.copyWith(playerTurn: 1);
+      state = state.copyWith(playerTurn: (state.playerTurn + 1) % 2);
     }
 
     // モンスターカードをセット
     if (phase == 2) {
-      final card = getById(1, cardId);
+      final card = getById(state.playerTurn, cardId);
       if (card == null) return;
-      setMonsterCard(1, card);
+      setMonsterCard(state.playerTurn, card);
     }
 
     // 装備カードをセット
     if (phase == 3) {
-      final card = getById(1, cardId);
+      final card = getById(state.playerTurn, cardId);
       if (card == null) return;
-      setEquipmentCard(1, card);
+      setEquipmentCard(state.playerTurn, card);
 
       state = state.copyWith(playerTurn: -1);
     }
-
-    // ・同時にモンスター用カードの全貌と装備用のカードのステータスのみを表示する。 phase4
-
-
-    // ・勝敗判定を表示する。 phase5
-    // ・お互いのモンスター用のカードのみを表示する。(確認のため) phase6
-    // ・現在のトータル戦績を表示する。 phase7
 
     // フェイズを進める
     state = state.copyWith(phase: phase + 1);
 
     // 対戦処理
-    // if (state.phase == 4) {
-    //   // 1Pの攻撃力合計
-    //   final player0AttackSum =
-    //       (state.monsterCardsPlacedOnTheFieldByPlayer0?.offensiveAbility ?? 0) +
-    //           (state.equipmentCardsPlacedOnTheFieldByPlayer0
-    //                   ?.equipmentAttackPower ??
-    //               0);
-    //
-    //   // 2Pの攻撃量合計
-    //   final player1AttackSum =
-    //       (state.monsterCardsPlacedOnTheFieldByPlayer1?.offensiveAbility ?? 0) +
-    //           (state.equipmentCardsPlacedOnTheFieldByPlayer1
-    //                   ?.equipmentAttackPower ??
-    //               0);
-    //
-    //   if (player0AttackSum > player1AttackSum) {
-    //     state =
-    //         state.copyWith(battlesWonByPlayer0: state.battlesWonByPlayer0 + 1);
-    //   }
-    //   if (player1AttackSum > player0AttackSum) {
-    //     state =
-    //         state.copyWith(battlesWonByPlayer1: state.battlesWonByPlayer1 + 1);
-    //   }
-    //
-    //   if (state.turn == 6 ||
-    //       state.battlesWonByPlayer1 >= 2 ||
-    //       state.battlesWonByPlayer0 >= 2) {
-    //     // ゲーム終了のフラグセット
-    //     state = state.copyWith(gameEndFlg: true);
-    //
-    //     if (state.battlesWonByPlayer0 > state.battlesWonByPlayer1) {
-    //       print("1Pの勝ち");
-    //     } else if (state.battlesWonByPlayer1 > state.battlesWonByPlayer0) {
-    //       print("2Pの勝ち");
-    //     } else {
-    //       print("引き分け");
-    //     }
-    //   }
-    //
-    //   // カードのセットをリセット
-    //   state = state.copyWith(
-    //     monsterCardsPlacedOnTheFieldByPlayer0: null,
-    //     monsterCardsPlacedOnTheFieldByPlayer1: null,
-    //     equipmentCardsPlacedOnTheFieldByPlayer0: null,
-    //     equipmentCardsPlacedOnTheFieldByPlayer1: null,
-    //   );
-    // }
 
     // if (state.phase == 2) {
     //   state = state.copyWith(phase: 0, turn: state.turn + 1);

@@ -32,6 +32,7 @@ class _$DuelStateTearOff {
       Card? equipmentCardsPlacedOnTheFieldByPlayer1,
       int battlesWonByPlayer0 = 0,
       int battlesWonByPlayer1 = 0,
+      int winFlag = -1,
       bool gameEndFlg = false}) {
     return _DuelState(
       turn: turn,
@@ -49,6 +50,7 @@ class _$DuelStateTearOff {
           equipmentCardsPlacedOnTheFieldByPlayer1,
       battlesWonByPlayer0: battlesWonByPlayer0,
       battlesWonByPlayer1: battlesWonByPlayer1,
+      winFlag: winFlag,
       gameEndFlg: gameEndFlg,
     );
   }
@@ -100,6 +102,10 @@ mixin _$DuelState {
   int get battlesWonByPlayer0 => throw _privateConstructorUsedError;
   int get battlesWonByPlayer1 => throw _privateConstructorUsedError;
   /*
+     * どっちが勝利したかのフラグ
+     */
+  int get winFlag => throw _privateConstructorUsedError;
+  /*
      * ゲームエンド
      */
   bool get gameEndFlg => throw _privateConstructorUsedError;
@@ -126,6 +132,7 @@ abstract class $DuelStateCopyWith<$Res> {
       Card? equipmentCardsPlacedOnTheFieldByPlayer1,
       int battlesWonByPlayer0,
       int battlesWonByPlayer1,
+      int winFlag,
       bool gameEndFlg});
 
   $CardCopyWith<$Res>? get monsterCardsPlacedOnTheFieldByPlayer0;
@@ -155,6 +162,7 @@ class _$DuelStateCopyWithImpl<$Res> implements $DuelStateCopyWith<$Res> {
     Object? equipmentCardsPlacedOnTheFieldByPlayer1 = freezed,
     Object? battlesWonByPlayer0 = freezed,
     Object? battlesWonByPlayer1 = freezed,
+    Object? winFlag = freezed,
     Object? gameEndFlg = freezed,
   }) {
     return _then(_value.copyWith(
@@ -205,6 +213,10 @@ class _$DuelStateCopyWithImpl<$Res> implements $DuelStateCopyWith<$Res> {
       battlesWonByPlayer1: battlesWonByPlayer1 == freezed
           ? _value.battlesWonByPlayer1
           : battlesWonByPlayer1 // ignore: cast_nullable_to_non_nullable
+              as int,
+      winFlag: winFlag == freezed
+          ? _value.winFlag
+          : winFlag // ignore: cast_nullable_to_non_nullable
               as int,
       gameEndFlg: gameEndFlg == freezed
           ? _value.gameEndFlg
@@ -284,6 +296,7 @@ abstract class _$DuelStateCopyWith<$Res> implements $DuelStateCopyWith<$Res> {
       Card? equipmentCardsPlacedOnTheFieldByPlayer1,
       int battlesWonByPlayer0,
       int battlesWonByPlayer1,
+      int winFlag,
       bool gameEndFlg});
 
   @override
@@ -318,6 +331,7 @@ class __$DuelStateCopyWithImpl<$Res> extends _$DuelStateCopyWithImpl<$Res>
     Object? equipmentCardsPlacedOnTheFieldByPlayer1 = freezed,
     Object? battlesWonByPlayer0 = freezed,
     Object? battlesWonByPlayer1 = freezed,
+    Object? winFlag = freezed,
     Object? gameEndFlg = freezed,
   }) {
     return _then(_DuelState(
@@ -369,6 +383,10 @@ class __$DuelStateCopyWithImpl<$Res> extends _$DuelStateCopyWithImpl<$Res>
           ? _value.battlesWonByPlayer1
           : battlesWonByPlayer1 // ignore: cast_nullable_to_non_nullable
               as int,
+      winFlag: winFlag == freezed
+          ? _value.winFlag
+          : winFlag // ignore: cast_nullable_to_non_nullable
+              as int,
       gameEndFlg: gameEndFlg == freezed
           ? _value.gameEndFlg
           : gameEndFlg // ignore: cast_nullable_to_non_nullable
@@ -392,6 +410,7 @@ class _$_DuelState with DiagnosticableTreeMixin implements _DuelState {
       this.equipmentCardsPlacedOnTheFieldByPlayer1,
       this.battlesWonByPlayer0 = 0,
       this.battlesWonByPlayer1 = 0,
+      this.winFlag = -1,
       this.gameEndFlg = false});
 
   factory _$_DuelState.fromJson(Map<String, dynamic> json) =>
@@ -447,6 +466,12 @@ class _$_DuelState with DiagnosticableTreeMixin implements _DuelState {
   @JsonKey(defaultValue: 0)
   @override
   final int battlesWonByPlayer1;
+  @JsonKey(defaultValue: -1)
+  @override
+  /*
+     * どっちが勝利したかのフラグ
+     */
+  final int winFlag;
   @JsonKey(defaultValue: false)
   @override
   /*
@@ -456,7 +481,7 @@ class _$_DuelState with DiagnosticableTreeMixin implements _DuelState {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'DuelState(turn: $turn, playerTurn: $playerTurn, phase: $phase, player0Deck: $player0Deck, player1Deck: $player1Deck, monsterCardsPlacedOnTheFieldByPlayer0: $monsterCardsPlacedOnTheFieldByPlayer0, monsterCardsPlacedOnTheFieldByPlayer1: $monsterCardsPlacedOnTheFieldByPlayer1, equipmentCardsPlacedOnTheFieldByPlayer0: $equipmentCardsPlacedOnTheFieldByPlayer0, equipmentCardsPlacedOnTheFieldByPlayer1: $equipmentCardsPlacedOnTheFieldByPlayer1, battlesWonByPlayer0: $battlesWonByPlayer0, battlesWonByPlayer1: $battlesWonByPlayer1, gameEndFlg: $gameEndFlg)';
+    return 'DuelState(turn: $turn, playerTurn: $playerTurn, phase: $phase, player0Deck: $player0Deck, player1Deck: $player1Deck, monsterCardsPlacedOnTheFieldByPlayer0: $monsterCardsPlacedOnTheFieldByPlayer0, monsterCardsPlacedOnTheFieldByPlayer1: $monsterCardsPlacedOnTheFieldByPlayer1, equipmentCardsPlacedOnTheFieldByPlayer0: $equipmentCardsPlacedOnTheFieldByPlayer0, equipmentCardsPlacedOnTheFieldByPlayer1: $equipmentCardsPlacedOnTheFieldByPlayer1, battlesWonByPlayer0: $battlesWonByPlayer0, battlesWonByPlayer1: $battlesWonByPlayer1, winFlag: $winFlag, gameEndFlg: $gameEndFlg)';
   }
 
   @override
@@ -479,6 +504,7 @@ class _$_DuelState with DiagnosticableTreeMixin implements _DuelState {
           equipmentCardsPlacedOnTheFieldByPlayer1))
       ..add(DiagnosticsProperty('battlesWonByPlayer0', battlesWonByPlayer0))
       ..add(DiagnosticsProperty('battlesWonByPlayer1', battlesWonByPlayer1))
+      ..add(DiagnosticsProperty('winFlag', winFlag))
       ..add(DiagnosticsProperty('gameEndFlg', gameEndFlg));
   }
 
@@ -507,8 +533,7 @@ class _$_DuelState with DiagnosticableTreeMixin implements _DuelState {
                 const DeepCollectionEquality().equals(
                     other.monsterCardsPlacedOnTheFieldByPlayer1,
                     monsterCardsPlacedOnTheFieldByPlayer1)) &&
-            (identical(other.equipmentCardsPlacedOnTheFieldByPlayer0,
-                    equipmentCardsPlacedOnTheFieldByPlayer0) ||
+            (identical(other.equipmentCardsPlacedOnTheFieldByPlayer0, equipmentCardsPlacedOnTheFieldByPlayer0) ||
                 const DeepCollectionEquality().equals(
                     other.equipmentCardsPlacedOnTheFieldByPlayer0,
                     equipmentCardsPlacedOnTheFieldByPlayer0)) &&
@@ -523,8 +548,12 @@ class _$_DuelState with DiagnosticableTreeMixin implements _DuelState {
             (identical(other.battlesWonByPlayer1, battlesWonByPlayer1) ||
                 const DeepCollectionEquality()
                     .equals(other.battlesWonByPlayer1, battlesWonByPlayer1)) &&
+            (identical(other.winFlag, winFlag) ||
+                const DeepCollectionEquality()
+                    .equals(other.winFlag, winFlag)) &&
             (identical(other.gameEndFlg, gameEndFlg) ||
-                const DeepCollectionEquality().equals(other.gameEndFlg, gameEndFlg)));
+                const DeepCollectionEquality()
+                    .equals(other.gameEndFlg, gameEndFlg)));
   }
 
   @override
@@ -545,6 +574,7 @@ class _$_DuelState with DiagnosticableTreeMixin implements _DuelState {
           .hash(equipmentCardsPlacedOnTheFieldByPlayer1) ^
       const DeepCollectionEquality().hash(battlesWonByPlayer0) ^
       const DeepCollectionEquality().hash(battlesWonByPlayer1) ^
+      const DeepCollectionEquality().hash(winFlag) ^
       const DeepCollectionEquality().hash(gameEndFlg);
 
   @JsonKey(ignore: true)
@@ -571,6 +601,7 @@ abstract class _DuelState implements DuelState {
       Card? equipmentCardsPlacedOnTheFieldByPlayer1,
       int battlesWonByPlayer0,
       int battlesWonByPlayer1,
+      int winFlag,
       bool gameEndFlg}) = _$_DuelState;
 
   factory _DuelState.fromJson(Map<String, dynamic> json) =
@@ -623,6 +654,11 @@ abstract class _DuelState implements DuelState {
   int get battlesWonByPlayer0 => throw _privateConstructorUsedError;
   @override
   int get battlesWonByPlayer1 => throw _privateConstructorUsedError;
+  @override
+  /*
+     * どっちが勝利したかのフラグ
+     */
+  int get winFlag => throw _privateConstructorUsedError;
   @override
   /*
      * ゲームエンド
