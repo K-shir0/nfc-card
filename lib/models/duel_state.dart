@@ -110,6 +110,10 @@ class DuelStateNotifier extends StateNotifier<DuelState> {
     state = state.copyWith(player0Deck: player0deck, player1Deck: player1deck);
   }
 
+  void nextPhase() {
+    state = state.copyWith(phase: state.phase + 1);
+  }
+
   void onCardClickHandler(String cardId) {
     final phase = state.phase;
 
@@ -147,7 +151,7 @@ class DuelStateNotifier extends StateNotifier<DuelState> {
     if (phase == 2) {
       final card = getById(1, cardId);
       if (card == null) return;
-      setEquipmentCard(1, card);
+      setMonsterCard(1, card);
     }
 
     // 装備カードをセット

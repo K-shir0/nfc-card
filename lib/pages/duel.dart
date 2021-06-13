@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nfc_card/models/duel_state.dart';
+import 'package:nfc_card/models/card.dart' as gameCard;
 
 class DuelPage extends HookWidget {
   final duelStateNotifierProvider =
@@ -44,6 +45,13 @@ class DuelPage extends HookWidget {
               Text('1pWin: ${provider.battlesWonByPlayer1}'),
             ],
           ),
+          if (provider.phase >= 4)
+            GestureDetector(
+              onTap: () {
+                print("次のフェイズに進める");
+              },
+            ),
+          // 手札の表示
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -55,18 +63,61 @@ class DuelPage extends HookWidget {
                         i < playerDecks[provider.playerTurn].length;
                         i++)
                       CardWidget(
-                          onTapHandler: () {
-                            context
-                                .read(duelStateNotifierProvider.notifier)
-                                .onCardClickHandler(
-                                    playerDecks[provider.playerTurn][i].id);
-                          },
-                          value1: playerDecks[provider.playerTurn][i]
-                              .offensiveAbility,
-                          value2: playerDecks[provider.playerTurn][i]
-                              .equipmentAttackPower),
+                        onTapHandler: () {
+                          context
+                              .read(duelStateNotifierProvider.notifier)
+                              .onCardClickHandler(
+                                  playerDecks[provider.playerTurn][i].id);
+                        },
+                        card: playerDecks[provider.playerTurn][i],
+                      ),
                   ],
                 ),
+            ],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              RotatedBox(
+                quarterTurns: 2,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (provider.monsterCardsPlacedOnTheFieldByPlayer1 !=
+                          null)
+                        provider.phase >= 4
+                            ? CardWidget(
+                                card: provider
+                                    .monsterCardsPlacedOnTheFieldByPlayer1,
+                              )
+                            : const CardWidget(),
+                      if (provider.equipmentCardsPlacedOnTheFieldByPlayer1 !=
+                          null)
+                        const CardWidget(),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (provider.monsterCardsPlacedOnTheFieldByPlayer0 != null)
+                      provider.phase >= 4
+                          ? CardWidget(
+                              card: provider
+                                  .monsterCardsPlacedOnTheFieldByPlayer0,
+                            )
+                          : const CardWidget(),
+                    if (provider.equipmentCardsPlacedOnTheFieldByPlayer0 !=
+                        null)
+                      const CardWidget(),
+                  ],
+                ),
+              ),
             ],
           ),
         ],
@@ -76,12 +127,10 @@ class DuelPage extends HookWidget {
 }
 
 class CardWidget extends StatelessWidget {
-  final Function() onTapHandler;
-  final int value1;
-  final int value2;
+  final Function()? onTapHandler;
+  final gameCard.Card? card;
 
-  const CardWidget(
-      {required this.onTapHandler, required this.value1, required this.value2});
+  const CardWidget({this.onTapHandler, this.card});
 
   @override
   Widget build(BuildContext context) {
@@ -94,8 +143,8 @@ class CardWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(value1.toString()),
-            Text(value2.toString()),
+            Text('${card?.offensiveAbility ?? ''}'),
+            Text('${card?.equipmentAttackPower ?? ''}'),
           ],
         ),
       ),
