@@ -64,12 +64,12 @@ class DuelState with _$DuelState {
 
     for (int i = 0; i < 2; i++) {
       decks.add([
-        Card.create(100, 50),
-        Card.create(100, 30),
-        Card.create(60, 50),
-        Card.create(60, 20),
-        Card.create(40, 30),
-        Card.create(40, 20),
+        Card.create("A", 100, 50),
+        Card.create("B", 100, 30),
+        Card.create("C", 60, 50),
+        Card.create("D", 60, 20),
+        Card.create("E", 40, 30),
+        Card.create("F", 40, 20),
       ]);
     }
 
@@ -127,23 +127,23 @@ class DuelStateNotifier extends StateNotifier<DuelState> {
       final player0AttackSum =
           (state.monsterCardsPlacedOnTheFieldByPlayer0?.offensiveAbility ?? 0) +
               (state.equipmentCardsPlacedOnTheFieldByPlayer0
-                  ?.equipmentAttackPower ??
+                      ?.equipmentAttackPower ??
                   0);
 
       // 2Pの攻撃量合計
       final player1AttackSum =
           (state.monsterCardsPlacedOnTheFieldByPlayer1?.offensiveAbility ?? 0) +
               (state.equipmentCardsPlacedOnTheFieldByPlayer1
-                  ?.equipmentAttackPower ??
+                      ?.equipmentAttackPower ??
                   0);
 
       if (player0AttackSum > player1AttackSum) {
-        state =
-            state.copyWith(battlesWonByPlayer0: state.battlesWonByPlayer0 + 1, winFlag: 0);
+        state = state.copyWith(
+            battlesWonByPlayer0: state.battlesWonByPlayer0 + 1, winFlag: 0);
       }
       if (player1AttackSum > player0AttackSum) {
-        state =
-            state.copyWith(battlesWonByPlayer1: state.battlesWonByPlayer1 + 1, winFlag: 1);
+        state = state.copyWith(
+            battlesWonByPlayer1: state.battlesWonByPlayer1 + 1, winFlag: 1);
       }
 
       if (state.turn == 6 ||
@@ -168,19 +168,16 @@ class DuelStateNotifier extends StateNotifier<DuelState> {
     if (phase == 7 && !state.gameEndFlg) {
       // カードのセットをリセット
       state = state.copyWith(
-        monsterCardsPlacedOnTheFieldByPlayer0: null,
-        monsterCardsPlacedOnTheFieldByPlayer1: null,
-        equipmentCardsPlacedOnTheFieldByPlayer0: null,
-        equipmentCardsPlacedOnTheFieldByPlayer1: null,
-        winFlag: -1,
-        phase: 0,
-        turn: state.turn + 1,
-        playerTurn: (state.turn + 1) % 2
-      );
+          monsterCardsPlacedOnTheFieldByPlayer0: null,
+          monsterCardsPlacedOnTheFieldByPlayer1: null,
+          equipmentCardsPlacedOnTheFieldByPlayer0: null,
+          equipmentCardsPlacedOnTheFieldByPlayer1: null,
+          winFlag: -1,
+          phase: 0,
+          turn: state.turn + 1,
+          playerTurn: (state.turn + 1) % 2);
     }
     // ・現在のトータル戦績を表示する。 phase7
-
-
   }
 
   void onCardClickHandler(String cardId) {

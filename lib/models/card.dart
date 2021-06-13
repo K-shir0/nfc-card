@@ -16,9 +16,10 @@ class Card with _$Card {
     @Default(0) final int equipmentAttackPower,
   }) = _Card;
 
-  factory Card.create(int offensiveAbility, int equipmentAttackPower) {
+  factory Card.create(
+      String id, int offensiveAbility, int equipmentAttackPower) {
     return Card(
-      id: _uuid.v4(),
+      id: id,
       offensiveAbility: offensiveAbility,
       equipmentAttackPower: equipmentAttackPower,
     );

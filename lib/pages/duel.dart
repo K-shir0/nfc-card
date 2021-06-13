@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nfc_card/models/duel_state.dart';
@@ -30,6 +31,38 @@ class DuelPage extends HookWidget {
     // context.read(duelStateNotifierProvider.notifier).setMonsterCard(0, );
 
     final playerDecks = [provider.player0Deck, provider.player1Deck].toList();
+
+    final MethodChannel _methodChannel = MethodChannel("samples.flutter.dev/nfc");
+
+    Future<String> scanNfcTag() async {
+      String _uid = "";
+
+      try {
+        // _uid = await _methodChannel.invokeMethod("getNfcTag");
+        final uid = await _methodChannel.invokeMethod("getNfcTag");
+
+        return uid.toString();
+      } catch (e) {
+        print(e);
+      }
+
+      return _uid;
+    }
+
+    Map<String, String> nfcs = {
+      "04c6296a6f7180": "A",
+      "04ba296a6f7180": "A",
+      "04c2296a6f7180": "B",
+      "04b6296a6f7180": "B",
+      "04a1296a6f7180": "C",
+      "04a9296a6f7180": "C",
+      "04a5296a6f7180": "D",
+      "04be296a6f7180": "D",
+      "04ae296a6f7180": "E",
+      "04b2296a6f7180": "E",
+      // "04b2296a6f7180": "F",
+      // "04b2296a6f7180": "F",
+    };
 
     String winText() {
       if (provider.winFlag == 0) return "1Pの勝利";
@@ -70,22 +103,42 @@ class DuelPage extends HookWidget {
             children: [
               // プレイヤーのターンが指定されていなければ表示しない
               if (provider.playerTurn > -1)
-                Row(
-                  children: [
-                    for (int i = 0;
-                        i < playerDecks[provider.playerTurn].length;
-                        i++)
-                      CardWidget(
-                        onTapHandler: () {
-                          context
+                // Row(
+                //   children: [
+                //     for (int i = 0;
+                //         i < playerDecks[provider.playerTurn].length;
+                //         i++)
+                //       CardWidget(
+                //         onTapHandler: () {
+                //           context
+                //               .read(duelStateNotifierProvider.notifier)
+                //               .onCardClickHandler(
+                //                   playerDecks[provider.playerTurn][i].id);
+                //         },
+                //         card: playerDecks[provider.playerTurn][i],
+                //       ),
+                //   ],
+                // )
+              ElevatedButton(
+                onPressed: () {
+                  scanNfcTag().then((value) {
+                    var findFlag = false;
+                    final playerDeck = playerDecks[provider.playerTurn];
+                    for (int i = 0; i < playerDeck.length && !findFlag; i++) {
+                      if (playerDeck[i].id == nfcs[value.toString()]) {
+                        // 見つけた
+                        findFlag = true;
+
+                        context
                               .read(duelStateNotifierProvider.notifier)
                               .onCardClickHandler(
                                   playerDecks[provider.playerTurn][i].id);
-                        },
-                        card: playerDecks[provider.playerTurn][i],
-                      ),
-                  ],
-                ),
+                        }
+                    }
+                  });
+                },
+                child: Text("NFC"),
+              ),
             ],
           ),
           /*
