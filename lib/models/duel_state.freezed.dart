@@ -22,6 +22,7 @@ class _$DuelStateTearOff {
 
   _DuelState call(
       {int turn = 0,
+      int playerTurn = 0,
       int phase = 0,
       List<Card> player0Deck = const [],
       List<Card> player1Deck = const [],
@@ -34,6 +35,7 @@ class _$DuelStateTearOff {
       bool gameEndFlg = false}) {
     return _DuelState(
       turn: turn,
+      playerTurn: playerTurn,
       phase: phase,
       player0Deck: player0Deck,
       player1Deck: player1Deck,
@@ -65,6 +67,10 @@ mixin _$DuelState {
      * ターン
      */
   int get turn => throw _privateConstructorUsedError;
+  /*
+     * プレイヤーのターン
+     */
+  int get playerTurn => throw _privateConstructorUsedError;
   /*
      * フェイズ
      */
@@ -110,6 +116,7 @@ abstract class $DuelStateCopyWith<$Res> {
       _$DuelStateCopyWithImpl<$Res>;
   $Res call(
       {int turn,
+      int playerTurn,
       int phase,
       List<Card> player0Deck,
       List<Card> player1Deck,
@@ -138,6 +145,7 @@ class _$DuelStateCopyWithImpl<$Res> implements $DuelStateCopyWith<$Res> {
   @override
   $Res call({
     Object? turn = freezed,
+    Object? playerTurn = freezed,
     Object? phase = freezed,
     Object? player0Deck = freezed,
     Object? player1Deck = freezed,
@@ -153,6 +161,10 @@ class _$DuelStateCopyWithImpl<$Res> implements $DuelStateCopyWith<$Res> {
       turn: turn == freezed
           ? _value.turn
           : turn // ignore: cast_nullable_to_non_nullable
+              as int,
+      playerTurn: playerTurn == freezed
+          ? _value.playerTurn
+          : playerTurn // ignore: cast_nullable_to_non_nullable
               as int,
       phase: phase == freezed
           ? _value.phase
@@ -262,6 +274,7 @@ abstract class _$DuelStateCopyWith<$Res> implements $DuelStateCopyWith<$Res> {
   @override
   $Res call(
       {int turn,
+      int playerTurn,
       int phase,
       List<Card> player0Deck,
       List<Card> player1Deck,
@@ -295,6 +308,7 @@ class __$DuelStateCopyWithImpl<$Res> extends _$DuelStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? turn = freezed,
+    Object? playerTurn = freezed,
     Object? phase = freezed,
     Object? player0Deck = freezed,
     Object? player1Deck = freezed,
@@ -310,6 +324,10 @@ class __$DuelStateCopyWithImpl<$Res> extends _$DuelStateCopyWithImpl<$Res>
       turn: turn == freezed
           ? _value.turn
           : turn // ignore: cast_nullable_to_non_nullable
+              as int,
+      playerTurn: playerTurn == freezed
+          ? _value.playerTurn
+          : playerTurn // ignore: cast_nullable_to_non_nullable
               as int,
       phase: phase == freezed
           ? _value.phase
@@ -364,6 +382,7 @@ class __$DuelStateCopyWithImpl<$Res> extends _$DuelStateCopyWithImpl<$Res>
 class _$_DuelState with DiagnosticableTreeMixin implements _DuelState {
   const _$_DuelState(
       {this.turn = 0,
+      this.playerTurn = 0,
       this.phase = 0,
       this.player0Deck = const [],
       this.player1Deck = const [],
@@ -384,6 +403,12 @@ class _$_DuelState with DiagnosticableTreeMixin implements _DuelState {
      * ターン
      */
   final int turn;
+  @JsonKey(defaultValue: 0)
+  @override
+  /*
+     * プレイヤーのターン
+     */
+  final int playerTurn;
   @JsonKey(defaultValue: 0)
   @override
   /*
@@ -431,7 +456,7 @@ class _$_DuelState with DiagnosticableTreeMixin implements _DuelState {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'DuelState(turn: $turn, phase: $phase, player0Deck: $player0Deck, player1Deck: $player1Deck, monsterCardsPlacedOnTheFieldByPlayer0: $monsterCardsPlacedOnTheFieldByPlayer0, monsterCardsPlacedOnTheFieldByPlayer1: $monsterCardsPlacedOnTheFieldByPlayer1, equipmentCardsPlacedOnTheFieldByPlayer0: $equipmentCardsPlacedOnTheFieldByPlayer0, equipmentCardsPlacedOnTheFieldByPlayer1: $equipmentCardsPlacedOnTheFieldByPlayer1, battlesWonByPlayer0: $battlesWonByPlayer0, battlesWonByPlayer1: $battlesWonByPlayer1, gameEndFlg: $gameEndFlg)';
+    return 'DuelState(turn: $turn, playerTurn: $playerTurn, phase: $phase, player0Deck: $player0Deck, player1Deck: $player1Deck, monsterCardsPlacedOnTheFieldByPlayer0: $monsterCardsPlacedOnTheFieldByPlayer0, monsterCardsPlacedOnTheFieldByPlayer1: $monsterCardsPlacedOnTheFieldByPlayer1, equipmentCardsPlacedOnTheFieldByPlayer0: $equipmentCardsPlacedOnTheFieldByPlayer0, equipmentCardsPlacedOnTheFieldByPlayer1: $equipmentCardsPlacedOnTheFieldByPlayer1, battlesWonByPlayer0: $battlesWonByPlayer0, battlesWonByPlayer1: $battlesWonByPlayer1, gameEndFlg: $gameEndFlg)';
   }
 
   @override
@@ -440,6 +465,7 @@ class _$_DuelState with DiagnosticableTreeMixin implements _DuelState {
     properties
       ..add(DiagnosticsProperty('type', 'DuelState'))
       ..add(DiagnosticsProperty('turn', turn))
+      ..add(DiagnosticsProperty('playerTurn', playerTurn))
       ..add(DiagnosticsProperty('phase', phase))
       ..add(DiagnosticsProperty('player0Deck', player0Deck))
       ..add(DiagnosticsProperty('player1Deck', player1Deck))
@@ -462,6 +488,9 @@ class _$_DuelState with DiagnosticableTreeMixin implements _DuelState {
         (other is _DuelState &&
             (identical(other.turn, turn) ||
                 const DeepCollectionEquality().equals(other.turn, turn)) &&
+            (identical(other.playerTurn, playerTurn) ||
+                const DeepCollectionEquality()
+                    .equals(other.playerTurn, playerTurn)) &&
             (identical(other.phase, phase) ||
                 const DeepCollectionEquality().equals(other.phase, phase)) &&
             (identical(other.player0Deck, player0Deck) ||
@@ -495,14 +524,14 @@ class _$_DuelState with DiagnosticableTreeMixin implements _DuelState {
                 const DeepCollectionEquality()
                     .equals(other.battlesWonByPlayer1, battlesWonByPlayer1)) &&
             (identical(other.gameEndFlg, gameEndFlg) ||
-                const DeepCollectionEquality()
-                    .equals(other.gameEndFlg, gameEndFlg)));
+                const DeepCollectionEquality().equals(other.gameEndFlg, gameEndFlg)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(turn) ^
+      const DeepCollectionEquality().hash(playerTurn) ^
       const DeepCollectionEquality().hash(phase) ^
       const DeepCollectionEquality().hash(player0Deck) ^
       const DeepCollectionEquality().hash(player1Deck) ^
@@ -532,6 +561,7 @@ class _$_DuelState with DiagnosticableTreeMixin implements _DuelState {
 abstract class _DuelState implements DuelState {
   const factory _DuelState(
       {int turn,
+      int playerTurn,
       int phase,
       List<Card> player0Deck,
       List<Card> player1Deck,
@@ -551,6 +581,11 @@ abstract class _DuelState implements DuelState {
      * ターン
      */
   int get turn => throw _privateConstructorUsedError;
+  @override
+  /*
+     * プレイヤーのターン
+     */
+  int get playerTurn => throw _privateConstructorUsedError;
   @override
   /*
      * フェイズ

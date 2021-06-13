@@ -28,9 +28,7 @@ class DuelPage extends HookWidget {
    */
     // context.read(duelStateNotifierProvider.notifier).setMonsterCard(0, );
 
-    final playerTurn = provider.turn % 2;
-    final playerDeck =
-        [provider.player0Deck, provider.player1Deck].toList()[playerTurn];
+    final playerDecks = [provider.player0Deck, provider.player1Deck].toList();
 
     return Scaffold(
       body: Stack(
@@ -49,19 +47,26 @@ class DuelPage extends HookWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Row(
-                children: [
-                  for (int i = 0; i < playerDeck.length; i++)
-                    CardWidget(
-                        onTapHandler: () {
-                          context
-                              .read(duelStateNotifierProvider.notifier)
-                              .onCardClickHandler(playerDeck[i].id);
-                        },
-                        value1: playerDeck[i].offensiveAbility,
-                        value2: playerDeck[i].equipmentAttackPower),
-                ],
-              ),
+              // プレイヤーのターンが指定されていなければ表示しない
+              if (provider.playerTurn > -1)
+                Row(
+                  children: [
+                    for (int i = 0;
+                        i < playerDecks[provider.playerTurn].length;
+                        i++)
+                      CardWidget(
+                          onTapHandler: () {
+                            context
+                                .read(duelStateNotifierProvider.notifier)
+                                .onCardClickHandler(
+                                    playerDecks[provider.playerTurn][i].id);
+                          },
+                          value1: playerDecks[provider.playerTurn][i]
+                              .offensiveAbility,
+                          value2: playerDecks[provider.playerTurn][i]
+                              .equipmentAttackPower),
+                  ],
+                ),
             ],
           ),
         ],
