@@ -32,6 +32,12 @@ class DuelState with _$DuelState {
     @Default([]) List<Card> player1Deck,
 
     /*
+     * 手札
+     */
+    @Default([]) List<Card> handful0,
+    @Default([]) List<Card> handful1,
+
+    /*
      * フィールドに設置した、モンスターカード
      */
     Card? monsterCardsPlacedOnTheFieldByPlayer0,
@@ -76,6 +82,8 @@ class DuelState with _$DuelState {
     return DuelState(
       player0Deck: decks[0],
       player1Deck: decks[1],
+      handful0: decks[0],
+      handful1: decks[1],
     );
   }
 
@@ -112,7 +120,52 @@ class DuelStateNotifier extends StateNotifier<DuelState> {
       if (state.player1Deck[i].id == cardId) player1deck.removeAt(i);
     }
 
-    state = state.copyWith(player0Deck: player0deck, player1Deck: player1deck);
+    state = state.copyWith(
+      player0Deck: player0deck,
+      player1Deck: player1deck,
+      handful0: player0deck,
+      handful1: player1deck,
+    );
+  }
+
+  /*
+   * 使用済みの処理を行い
+   * 手札とデッキに反映させる
+   */
+  void usedAt(String cardId) {
+    var player0deck = [...state.player0Deck];
+    var player1deck = [...state.player1Deck];
+
+    for (int i = 0; i < state.player0Deck.length; i++) {
+      if (state.player0Deck[i].id == cardId) {
+        player0deck[i] = player0deck[i].copyWith(monsterUsed: true);
+        state = state.copyWith(player0Deck: [...player0deck]);
+
+        print("選んだカード");
+        print(player0deck[i]);
+
+        // カードの削除
+        player0deck.removeAt(i);
+      }
+    }
+
+    for (int i = 0; i < state.player1Deck.length; i++) {
+      if (state.player1Deck[i].id == cardId) {
+        player1deck[i] = player1deck[i].copyWith(monsterUsed: true);
+
+        state = state.copyWith(player1Deck: [...player1deck]);
+
+        // カードの削除
+        player1deck.removeAt(i);
+      }
+    }
+
+    state = state.copyWith(
+      handful0: player0deck,
+      handful1: player1deck,
+    );
+
+    print(state.handful0);
   }
 
   void nextPhase() {
@@ -166,16 +219,21 @@ class DuelStateNotifier extends StateNotifier<DuelState> {
 
     // 次のターンに進むため盤面をリセットする処理
     if (phase == 7 && !state.gameEndFlg) {
+      print(state.player0Deck);
+
       // カードのセットをリセット
       state = state.copyWith(
-          monsterCardsPlacedOnTheFieldByPlayer0: null,
-          monsterCardsPlacedOnTheFieldByPlayer1: null,
-          equipmentCardsPlacedOnTheFieldByPlayer0: null,
-          equipmentCardsPlacedOnTheFieldByPlayer1: null,
-          winFlag: -1,
-          phase: 0,
-          turn: state.turn + 1,
-          playerTurn: (state.turn + 1) % 2);
+        handful0: state.player0Deck,
+        handful1: state.player1Deck,
+        monsterCardsPlacedOnTheFieldByPlayer0: null,
+        monsterCardsPlacedOnTheFieldByPlayer1: null,
+        equipmentCardsPlacedOnTheFieldByPlayer0: null,
+        equipmentCardsPlacedOnTheFieldByPlayer1: null,
+        winFlag: -1,
+        phase: 0,
+        turn: state.turn + 1,
+        playerTurn: (state.turn + 1) % 2,
+      );
     }
     // ・現在のトータル戦績を表示する。 phase7
   }
@@ -241,13 +299,15 @@ class DuelStateNotifier extends StateNotifier<DuelState> {
 
   void setMonsterCard(int playerNumber, Card card) {
     // カードをセット
+    if (card.monsterUsed) return;
+
     if (playerNumber == 0) {
       state = state.copyWith(monsterCardsPlacedOnTheFieldByPlayer0: card);
     } else if (playerNumber == 1) {
       state = state.copyWith(monsterCardsPlacedOnTheFieldByPlayer1: card);
     }
 
-    removeAt(card.id);
+    usedAt(card.id);
   }
 
   void setEquipmentCard(int playerNumber, Card card) {

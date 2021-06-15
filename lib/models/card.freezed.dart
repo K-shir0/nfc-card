@@ -22,11 +22,15 @@ class _$CardTearOff {
 
   _Card call(
       {String id = '',
+      String type = '',
       int offensiveAbility = 0,
+      bool monsterUsed = false,
       int equipmentAttackPower = 0}) {
     return _Card(
       id: id,
+      type: type,
       offensiveAbility: offensiveAbility,
+      monsterUsed: monsterUsed,
       equipmentAttackPower: equipmentAttackPower,
     );
   }
@@ -42,7 +46,9 @@ const $Card = _$CardTearOff();
 /// @nodoc
 mixin _$Card {
   String get id => throw _privateConstructorUsedError;
+  String get type => throw _privateConstructorUsedError;
   int get offensiveAbility => throw _privateConstructorUsedError;
+  bool get monsterUsed => throw _privateConstructorUsedError;
   int get equipmentAttackPower => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -54,7 +60,12 @@ mixin _$Card {
 abstract class $CardCopyWith<$Res> {
   factory $CardCopyWith(Card value, $Res Function(Card) then) =
       _$CardCopyWithImpl<$Res>;
-  $Res call({String id, int offensiveAbility, int equipmentAttackPower});
+  $Res call(
+      {String id,
+      String type,
+      int offensiveAbility,
+      bool monsterUsed,
+      int equipmentAttackPower});
 }
 
 /// @nodoc
@@ -68,7 +79,9 @@ class _$CardCopyWithImpl<$Res> implements $CardCopyWith<$Res> {
   @override
   $Res call({
     Object? id = freezed,
+    Object? type = freezed,
     Object? offensiveAbility = freezed,
+    Object? monsterUsed = freezed,
     Object? equipmentAttackPower = freezed,
   }) {
     return _then(_value.copyWith(
@@ -76,10 +89,18 @@ class _$CardCopyWithImpl<$Res> implements $CardCopyWith<$Res> {
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      type: type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
       offensiveAbility: offensiveAbility == freezed
           ? _value.offensiveAbility
           : offensiveAbility // ignore: cast_nullable_to_non_nullable
               as int,
+      monsterUsed: monsterUsed == freezed
+          ? _value.monsterUsed
+          : monsterUsed // ignore: cast_nullable_to_non_nullable
+              as bool,
       equipmentAttackPower: equipmentAttackPower == freezed
           ? _value.equipmentAttackPower
           : equipmentAttackPower // ignore: cast_nullable_to_non_nullable
@@ -93,7 +114,12 @@ abstract class _$CardCopyWith<$Res> implements $CardCopyWith<$Res> {
   factory _$CardCopyWith(_Card value, $Res Function(_Card) then) =
       __$CardCopyWithImpl<$Res>;
   @override
-  $Res call({String id, int offensiveAbility, int equipmentAttackPower});
+  $Res call(
+      {String id,
+      String type,
+      int offensiveAbility,
+      bool monsterUsed,
+      int equipmentAttackPower});
 }
 
 /// @nodoc
@@ -108,7 +134,9 @@ class __$CardCopyWithImpl<$Res> extends _$CardCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
+    Object? type = freezed,
     Object? offensiveAbility = freezed,
+    Object? monsterUsed = freezed,
     Object? equipmentAttackPower = freezed,
   }) {
     return _then(_Card(
@@ -116,10 +144,18 @@ class __$CardCopyWithImpl<$Res> extends _$CardCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      type: type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
       offensiveAbility: offensiveAbility == freezed
           ? _value.offensiveAbility
           : offensiveAbility // ignore: cast_nullable_to_non_nullable
               as int,
+      monsterUsed: monsterUsed == freezed
+          ? _value.monsterUsed
+          : monsterUsed // ignore: cast_nullable_to_non_nullable
+              as bool,
       equipmentAttackPower: equipmentAttackPower == freezed
           ? _value.equipmentAttackPower
           : equipmentAttackPower // ignore: cast_nullable_to_non_nullable
@@ -132,7 +168,11 @@ class __$CardCopyWithImpl<$Res> extends _$CardCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Card with DiagnosticableTreeMixin implements _Card {
   const _$_Card(
-      {this.id = '', this.offensiveAbility = 0, this.equipmentAttackPower = 0});
+      {this.id = '',
+      this.type = '',
+      this.offensiveAbility = 0,
+      this.monsterUsed = false,
+      this.equipmentAttackPower = 0});
 
   factory _$_Card.fromJson(Map<String, dynamic> json) =>
       _$_$_CardFromJson(json);
@@ -140,16 +180,22 @@ class _$_Card with DiagnosticableTreeMixin implements _Card {
   @JsonKey(defaultValue: '')
   @override
   final String id;
+  @JsonKey(defaultValue: '')
+  @override
+  final String type;
   @JsonKey(defaultValue: 0)
   @override
   final int offensiveAbility;
+  @JsonKey(defaultValue: false)
+  @override
+  final bool monsterUsed;
   @JsonKey(defaultValue: 0)
   @override
   final int equipmentAttackPower;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Card(id: $id, offensiveAbility: $offensiveAbility, equipmentAttackPower: $equipmentAttackPower)';
+    return 'Card(id: $id, type: $type, offensiveAbility: $offensiveAbility, monsterUsed: $monsterUsed, equipmentAttackPower: $equipmentAttackPower)';
   }
 
   @override
@@ -158,7 +204,9 @@ class _$_Card with DiagnosticableTreeMixin implements _Card {
     properties
       ..add(DiagnosticsProperty('type', 'Card'))
       ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('type', type))
       ..add(DiagnosticsProperty('offensiveAbility', offensiveAbility))
+      ..add(DiagnosticsProperty('monsterUsed', monsterUsed))
       ..add(DiagnosticsProperty('equipmentAttackPower', equipmentAttackPower));
   }
 
@@ -168,9 +216,14 @@ class _$_Card with DiagnosticableTreeMixin implements _Card {
         (other is _Card &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)) &&
             (identical(other.offensiveAbility, offensiveAbility) ||
                 const DeepCollectionEquality()
                     .equals(other.offensiveAbility, offensiveAbility)) &&
+            (identical(other.monsterUsed, monsterUsed) ||
+                const DeepCollectionEquality()
+                    .equals(other.monsterUsed, monsterUsed)) &&
             (identical(other.equipmentAttackPower, equipmentAttackPower) ||
                 const DeepCollectionEquality()
                     .equals(other.equipmentAttackPower, equipmentAttackPower)));
@@ -180,7 +233,9 @@ class _$_Card with DiagnosticableTreeMixin implements _Card {
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(type) ^
       const DeepCollectionEquality().hash(offensiveAbility) ^
+      const DeepCollectionEquality().hash(monsterUsed) ^
       const DeepCollectionEquality().hash(equipmentAttackPower);
 
   @JsonKey(ignore: true)
@@ -196,14 +251,22 @@ class _$_Card with DiagnosticableTreeMixin implements _Card {
 
 abstract class _Card implements Card {
   const factory _Card(
-      {String id, int offensiveAbility, int equipmentAttackPower}) = _$_Card;
+      {String id,
+      String type,
+      int offensiveAbility,
+      bool monsterUsed,
+      int equipmentAttackPower}) = _$_Card;
 
   factory _Card.fromJson(Map<String, dynamic> json) = _$_Card.fromJson;
 
   @override
   String get id => throw _privateConstructorUsedError;
   @override
+  String get type => throw _privateConstructorUsedError;
+  @override
   int get offensiveAbility => throw _privateConstructorUsedError;
+  @override
+  bool get monsterUsed => throw _privateConstructorUsedError;
   @override
   int get equipmentAttackPower => throw _privateConstructorUsedError;
   @override

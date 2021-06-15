@@ -8,8 +8,8 @@ import 'package:nfc_card/models/card.dart' as gameCard;
 
 class DuelPage extends HookWidget {
   final duelStateNotifierProvider =
-      StateNotifierProvider<DuelStateNotifier, DuelState>(
-    (refs) => DuelStateNotifier(),
+  StateNotifierProvider<DuelStateNotifier, DuelState>(
+        (refs) => DuelStateNotifier(),
   );
 
   @override
@@ -30,9 +30,10 @@ class DuelPage extends HookWidget {
    */
     // context.read(duelStateNotifierProvider.notifier).setMonsterCard(0, );
 
-    final playerDecks = [provider.player0Deck, provider.player1Deck].toList();
+    final playerDecks = [provider.handful0, provider.handful1].toList();
 
-    final MethodChannel _methodChannel = MethodChannel("samples.flutter.dev/nfc");
+    final MethodChannel _methodChannel =
+    MethodChannel("samples.flutter.dev/nfc");
 
     Future<String> scanNfcTag() async {
       String _uid = "";
@@ -49,19 +50,19 @@ class DuelPage extends HookWidget {
       return _uid;
     }
 
-    Map<String, String> nfcs = {
-      "04c6296a6f7180": "A",
-      "04ba296a6f7180": "A",
+    const Map<String, String> nfcs = {
+      "04b2296a6f7180": "A",
+      "04ae296a6f7180": "A",
       "04c2296a6f7180": "B",
-      "04b6296a6f7180": "B",
-      "04a1296a6f7180": "C",
-      "04a9296a6f7180": "C",
+      "04a1296a6f7180": "B",
+      "04ba296a6f7180": "C",
+      "04b6296a6f7180": "C",
+      "04a9296a6f7180": "D",
       "04a5296a6f7180": "D",
-      "04be296a6f7180": "D",
-      "04ae296a6f7180": "E",
-      "04b2296a6f7180": "E",
-      // "04b2296a6f7180": "F",
-      // "04b2296a6f7180": "F",
+      "04c6296a6f7180": "E",
+      "04be296a6f7180": "E",
+      "04b72b6a6f7180": "F",
+      "04bb2b6a6f7180": "F",
     };
 
     String winText() {
@@ -70,6 +71,21 @@ class DuelPage extends HookWidget {
       if (provider.winFlag == -1) return "引き分け";
 
       return "";
+    }
+
+    Widget? test(gameCard.Card card) {
+      if ((provider.phase == 0 || provider.phase == 2) && card.monsterUsed) {
+        return null;
+      }
+
+      return CardWidget(
+        onTapHandler: () {
+          context
+              .read(duelStateNotifierProvider.notifier)
+              .onCardClickHandler(card.id);
+        },
+        card: card,
+      );
     }
 
     return Scaffold(
@@ -97,50 +113,6 @@ class DuelPage extends HookWidget {
                 context.read(duelStateNotifierProvider.notifier).nextPhase();
               },
             ),
-          // 手札の表示
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              // プレイヤーのターンが指定されていなければ表示しない
-              if (provider.playerTurn > -1)
-                // Row(
-                //   children: [
-                //     for (int i = 0;
-                //         i < playerDecks[provider.playerTurn].length;
-                //         i++)
-                //       CardWidget(
-                //         onTapHandler: () {
-                //           context
-                //               .read(duelStateNotifierProvider.notifier)
-                //               .onCardClickHandler(
-                //                   playerDecks[provider.playerTurn][i].id);
-                //         },
-                //         card: playerDecks[provider.playerTurn][i],
-                //       ),
-                //   ],
-                // )
-              ElevatedButton(
-                onPressed: () {
-                  scanNfcTag().then((value) {
-                    var findFlag = false;
-                    final playerDeck = playerDecks[provider.playerTurn];
-                    for (int i = 0; i < playerDeck.length && !findFlag; i++) {
-                      if (playerDeck[i].id == nfcs[value.toString()]) {
-                        // 見つけた
-                        findFlag = true;
-
-                        context
-                              .read(duelStateNotifierProvider.notifier)
-                              .onCardClickHandler(
-                                  playerDecks[provider.playerTurn][i].id);
-                        }
-                    }
-                  });
-                },
-                child: Text("NFC"),
-              ),
-            ],
-          ),
           /*
            * 設置されたカードの表示
            */
@@ -161,18 +133,18 @@ class DuelPage extends HookWidget {
                           null)
                         provider.phase >= 5
                             ? CardWidget(
-                                card: provider
-                                    .monsterCardsPlacedOnTheFieldByPlayer1,
-                              )
+                          card: provider
+                              .monsterCardsPlacedOnTheFieldByPlayer1,
+                        )
                             : const CardWidget(),
                       if (provider.equipmentCardsPlacedOnTheFieldByPlayer1 !=
                           null)
                         provider.phase >= 5
                             ? CardWidget(
-                                card: provider
-                                    .equipmentCardsPlacedOnTheFieldByPlayer1,
-                                isValue1Visible: false,
-                              )
+                          card: provider
+                              .equipmentCardsPlacedOnTheFieldByPlayer1,
+                          isValue1Visible: false,
+                        )
                             : CardWidget(),
                     ],
                   ),
@@ -189,22 +161,66 @@ class DuelPage extends HookWidget {
                     if (provider.monsterCardsPlacedOnTheFieldByPlayer0 != null)
                       provider.phase >= 5
                           ? CardWidget(
-                              card: provider
-                                  .monsterCardsPlacedOnTheFieldByPlayer0,
-                            )
+                        card: provider
+                            .monsterCardsPlacedOnTheFieldByPlayer0,
+                      )
                           : const CardWidget(),
                     if (provider.equipmentCardsPlacedOnTheFieldByPlayer0 !=
                         null)
                       provider.phase >= 5
                           ? CardWidget(
-                              card: provider
-                                  .equipmentCardsPlacedOnTheFieldByPlayer0,
-                              isValue1Visible: false,
-                            )
+                        card: provider
+                            .equipmentCardsPlacedOnTheFieldByPlayer0,
+                        isValue1Visible: false,
+                      )
                           : const CardWidget(),
                   ],
                 ),
               ),
+            ],
+          ),
+          // 手札の表示
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              // プレイヤーのターンが指定されていなければ表示しない
+              if (provider.playerTurn > -1)
+              // Row(
+              //   children: [
+              //     for (int i = 0;
+              //         i < playerDecks[provider.playerTurn].length;
+              //         i++)
+              //       // モンスターカードが使用済みならモンスター出すターンで表示しない
+              //       test(playerDecks[provider.playerTurn][i]) ?? Text("test")
+              //   ],
+              // )
+                ElevatedButton(
+                  onPressed: () {
+                    scanNfcTag().then((value) {
+                      var findFlag = false;
+                      final playerDeck = playerDecks[provider.playerTurn];
+                      print(value);
+                      for (int i = 0; i < playerDeck.length && !findFlag; i++) {
+                        if (playerDeck[i].type == nfcs[value.toString()]) {
+                          // 見つけた
+                          findFlag = true;
+                          print("test");
+
+                          if ((provider.phase == 0 || provider.phase == 2) &&
+                              playerDeck[i].monsterUsed) {
+                            return null;
+                          }
+
+                          context
+                              .read(duelStateNotifierProvider.notifier)
+                              .onCardClickHandler(
+                              playerDecks[provider.playerTurn][i].id);
+                        }
+                      }
+                    });
+                  },
+                  child: Text("NFC"),
+                ),
             ],
           ),
         ],
@@ -235,6 +251,7 @@ class CardWidget extends StatelessWidget {
               Text('${card?.offensiveAbility ?? ''}')
             else
               const Text(''),
+            if (card != null) Text(card!.type),
             Text('${card?.equipmentAttackPower ?? ''}'),
           ],
         ),

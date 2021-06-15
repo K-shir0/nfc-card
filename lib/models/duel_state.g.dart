@@ -19,6 +19,14 @@ _$_DuelState _$_$_DuelStateFromJson(Map<String, dynamic> json) {
             ?.map((e) => Card.fromJson(e as Map<String, dynamic>))
             .toList() ??
         [],
+    handful0: (json['handful0'] as List<dynamic>?)
+            ?.map((e) => Card.fromJson(e as Map<String, dynamic>))
+            .toList() ??
+        [],
+    handful1: (json['handful1'] as List<dynamic>?)
+            ?.map((e) => Card.fromJson(e as Map<String, dynamic>))
+            .toList() ??
+        [],
     monsterCardsPlacedOnTheFieldByPlayer0:
         json['monsterCardsPlacedOnTheFieldByPlayer0'] == null
             ? null
@@ -53,6 +61,8 @@ Map<String, dynamic> _$_$_DuelStateToJson(_$_DuelState instance) =>
       'phase': instance.phase,
       'player0Deck': instance.player0Deck,
       'player1Deck': instance.player1Deck,
+      'handful0': instance.handful0,
+      'handful1': instance.handful1,
       'monsterCardsPlacedOnTheFieldByPlayer0':
           instance.monsterCardsPlacedOnTheFieldByPlayer0,
       'monsterCardsPlacedOnTheFieldByPlayer1':

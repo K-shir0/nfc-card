@@ -12,14 +12,17 @@ var _uuid = const Uuid();
 class Card with _$Card {
   const factory Card({
     @Default('') String id,
+    @Default('') String type,
     @Default(0) final int offensiveAbility,
+    @Default(false) bool monsterUsed,
     @Default(0) final int equipmentAttackPower,
   }) = _Card;
 
   factory Card.create(
-      String id, int offensiveAbility, int equipmentAttackPower) {
+      String type, int offensiveAbility, int equipmentAttackPower) {
     return Card(
-      id: id,
+      id: _uuid.v4(),
+      type: type,
       offensiveAbility: offensiveAbility,
       equipmentAttackPower: equipmentAttackPower,
     );

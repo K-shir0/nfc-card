@@ -26,6 +26,8 @@ class _$DuelStateTearOff {
       int phase = 0,
       List<Card> player0Deck = const [],
       List<Card> player1Deck = const [],
+      List<Card> handful0 = const [],
+      List<Card> handful1 = const [],
       Card? monsterCardsPlacedOnTheFieldByPlayer0,
       Card? monsterCardsPlacedOnTheFieldByPlayer1,
       Card? equipmentCardsPlacedOnTheFieldByPlayer0,
@@ -40,6 +42,8 @@ class _$DuelStateTearOff {
       phase: phase,
       player0Deck: player0Deck,
       player1Deck: player1Deck,
+      handful0: handful0,
+      handful1: handful1,
       monsterCardsPlacedOnTheFieldByPlayer0:
           monsterCardsPlacedOnTheFieldByPlayer0,
       monsterCardsPlacedOnTheFieldByPlayer1:
@@ -82,6 +86,11 @@ mixin _$DuelState {
      */
   List<Card> get player0Deck => throw _privateConstructorUsedError;
   List<Card> get player1Deck => throw _privateConstructorUsedError;
+  /*
+     * 手札
+     */
+  List<Card> get handful0 => throw _privateConstructorUsedError;
+  List<Card> get handful1 => throw _privateConstructorUsedError;
   /*
      * フィールドに設置した、モンスターカード
      */
@@ -126,6 +135,8 @@ abstract class $DuelStateCopyWith<$Res> {
       int phase,
       List<Card> player0Deck,
       List<Card> player1Deck,
+      List<Card> handful0,
+      List<Card> handful1,
       Card? monsterCardsPlacedOnTheFieldByPlayer0,
       Card? monsterCardsPlacedOnTheFieldByPlayer1,
       Card? equipmentCardsPlacedOnTheFieldByPlayer0,
@@ -156,6 +167,8 @@ class _$DuelStateCopyWithImpl<$Res> implements $DuelStateCopyWith<$Res> {
     Object? phase = freezed,
     Object? player0Deck = freezed,
     Object? player1Deck = freezed,
+    Object? handful0 = freezed,
+    Object? handful1 = freezed,
     Object? monsterCardsPlacedOnTheFieldByPlayer0 = freezed,
     Object? monsterCardsPlacedOnTheFieldByPlayer1 = freezed,
     Object? equipmentCardsPlacedOnTheFieldByPlayer0 = freezed,
@@ -185,6 +198,14 @@ class _$DuelStateCopyWithImpl<$Res> implements $DuelStateCopyWith<$Res> {
       player1Deck: player1Deck == freezed
           ? _value.player1Deck
           : player1Deck // ignore: cast_nullable_to_non_nullable
+              as List<Card>,
+      handful0: handful0 == freezed
+          ? _value.handful0
+          : handful0 // ignore: cast_nullable_to_non_nullable
+              as List<Card>,
+      handful1: handful1 == freezed
+          ? _value.handful1
+          : handful1 // ignore: cast_nullable_to_non_nullable
               as List<Card>,
       monsterCardsPlacedOnTheFieldByPlayer0:
           monsterCardsPlacedOnTheFieldByPlayer0 == freezed
@@ -290,6 +311,8 @@ abstract class _$DuelStateCopyWith<$Res> implements $DuelStateCopyWith<$Res> {
       int phase,
       List<Card> player0Deck,
       List<Card> player1Deck,
+      List<Card> handful0,
+      List<Card> handful1,
       Card? monsterCardsPlacedOnTheFieldByPlayer0,
       Card? monsterCardsPlacedOnTheFieldByPlayer1,
       Card? equipmentCardsPlacedOnTheFieldByPlayer0,
@@ -325,6 +348,8 @@ class __$DuelStateCopyWithImpl<$Res> extends _$DuelStateCopyWithImpl<$Res>
     Object? phase = freezed,
     Object? player0Deck = freezed,
     Object? player1Deck = freezed,
+    Object? handful0 = freezed,
+    Object? handful1 = freezed,
     Object? monsterCardsPlacedOnTheFieldByPlayer0 = freezed,
     Object? monsterCardsPlacedOnTheFieldByPlayer1 = freezed,
     Object? equipmentCardsPlacedOnTheFieldByPlayer0 = freezed,
@@ -354,6 +379,14 @@ class __$DuelStateCopyWithImpl<$Res> extends _$DuelStateCopyWithImpl<$Res>
       player1Deck: player1Deck == freezed
           ? _value.player1Deck
           : player1Deck // ignore: cast_nullable_to_non_nullable
+              as List<Card>,
+      handful0: handful0 == freezed
+          ? _value.handful0
+          : handful0 // ignore: cast_nullable_to_non_nullable
+              as List<Card>,
+      handful1: handful1 == freezed
+          ? _value.handful1
+          : handful1 // ignore: cast_nullable_to_non_nullable
               as List<Card>,
       monsterCardsPlacedOnTheFieldByPlayer0:
           monsterCardsPlacedOnTheFieldByPlayer0 == freezed
@@ -404,6 +437,8 @@ class _$_DuelState with DiagnosticableTreeMixin implements _DuelState {
       this.phase = 0,
       this.player0Deck = const [],
       this.player1Deck = const [],
+      this.handful0 = const [],
+      this.handful1 = const [],
       this.monsterCardsPlacedOnTheFieldByPlayer0,
       this.monsterCardsPlacedOnTheFieldByPlayer1,
       this.equipmentCardsPlacedOnTheFieldByPlayer0,
@@ -443,6 +478,15 @@ class _$_DuelState with DiagnosticableTreeMixin implements _DuelState {
   @JsonKey(defaultValue: const [])
   @override
   final List<Card> player1Deck;
+  @JsonKey(defaultValue: const [])
+  @override
+  /*
+     * 手札
+     */
+  final List<Card> handful0;
+  @JsonKey(defaultValue: const [])
+  @override
+  final List<Card> handful1;
   @override
   /*
      * フィールドに設置した、モンスターカード
@@ -481,7 +525,7 @@ class _$_DuelState with DiagnosticableTreeMixin implements _DuelState {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'DuelState(turn: $turn, playerTurn: $playerTurn, phase: $phase, player0Deck: $player0Deck, player1Deck: $player1Deck, monsterCardsPlacedOnTheFieldByPlayer0: $monsterCardsPlacedOnTheFieldByPlayer0, monsterCardsPlacedOnTheFieldByPlayer1: $monsterCardsPlacedOnTheFieldByPlayer1, equipmentCardsPlacedOnTheFieldByPlayer0: $equipmentCardsPlacedOnTheFieldByPlayer0, equipmentCardsPlacedOnTheFieldByPlayer1: $equipmentCardsPlacedOnTheFieldByPlayer1, battlesWonByPlayer0: $battlesWonByPlayer0, battlesWonByPlayer1: $battlesWonByPlayer1, winFlag: $winFlag, gameEndFlg: $gameEndFlg)';
+    return 'DuelState(turn: $turn, playerTurn: $playerTurn, phase: $phase, player0Deck: $player0Deck, player1Deck: $player1Deck, handful0: $handful0, handful1: $handful1, monsterCardsPlacedOnTheFieldByPlayer0: $monsterCardsPlacedOnTheFieldByPlayer0, monsterCardsPlacedOnTheFieldByPlayer1: $monsterCardsPlacedOnTheFieldByPlayer1, equipmentCardsPlacedOnTheFieldByPlayer0: $equipmentCardsPlacedOnTheFieldByPlayer0, equipmentCardsPlacedOnTheFieldByPlayer1: $equipmentCardsPlacedOnTheFieldByPlayer1, battlesWonByPlayer0: $battlesWonByPlayer0, battlesWonByPlayer1: $battlesWonByPlayer1, winFlag: $winFlag, gameEndFlg: $gameEndFlg)';
   }
 
   @override
@@ -494,6 +538,8 @@ class _$_DuelState with DiagnosticableTreeMixin implements _DuelState {
       ..add(DiagnosticsProperty('phase', phase))
       ..add(DiagnosticsProperty('player0Deck', player0Deck))
       ..add(DiagnosticsProperty('player1Deck', player1Deck))
+      ..add(DiagnosticsProperty('handful0', handful0))
+      ..add(DiagnosticsProperty('handful1', handful1))
       ..add(DiagnosticsProperty('monsterCardsPlacedOnTheFieldByPlayer0',
           monsterCardsPlacedOnTheFieldByPlayer0))
       ..add(DiagnosticsProperty('monsterCardsPlacedOnTheFieldByPlayer1',
@@ -525,6 +571,12 @@ class _$_DuelState with DiagnosticableTreeMixin implements _DuelState {
             (identical(other.player1Deck, player1Deck) ||
                 const DeepCollectionEquality()
                     .equals(other.player1Deck, player1Deck)) &&
+            (identical(other.handful0, handful0) ||
+                const DeepCollectionEquality()
+                    .equals(other.handful0, handful0)) &&
+            (identical(other.handful1, handful1) ||
+                const DeepCollectionEquality()
+                    .equals(other.handful1, handful1)) &&
             (identical(other.monsterCardsPlacedOnTheFieldByPlayer0, monsterCardsPlacedOnTheFieldByPlayer0) ||
                 const DeepCollectionEquality().equals(
                     other.monsterCardsPlacedOnTheFieldByPlayer0,
@@ -537,8 +589,7 @@ class _$_DuelState with DiagnosticableTreeMixin implements _DuelState {
                 const DeepCollectionEquality().equals(
                     other.equipmentCardsPlacedOnTheFieldByPlayer0,
                     equipmentCardsPlacedOnTheFieldByPlayer0)) &&
-            (identical(other.equipmentCardsPlacedOnTheFieldByPlayer1,
-                    equipmentCardsPlacedOnTheFieldByPlayer1) ||
+            (identical(other.equipmentCardsPlacedOnTheFieldByPlayer1, equipmentCardsPlacedOnTheFieldByPlayer1) ||
                 const DeepCollectionEquality().equals(
                     other.equipmentCardsPlacedOnTheFieldByPlayer1,
                     equipmentCardsPlacedOnTheFieldByPlayer1)) &&
@@ -564,6 +615,8 @@ class _$_DuelState with DiagnosticableTreeMixin implements _DuelState {
       const DeepCollectionEquality().hash(phase) ^
       const DeepCollectionEquality().hash(player0Deck) ^
       const DeepCollectionEquality().hash(player1Deck) ^
+      const DeepCollectionEquality().hash(handful0) ^
+      const DeepCollectionEquality().hash(handful1) ^
       const DeepCollectionEquality()
           .hash(monsterCardsPlacedOnTheFieldByPlayer0) ^
       const DeepCollectionEquality()
@@ -595,6 +648,8 @@ abstract class _DuelState implements DuelState {
       int phase,
       List<Card> player0Deck,
       List<Card> player1Deck,
+      List<Card> handful0,
+      List<Card> handful1,
       Card? monsterCardsPlacedOnTheFieldByPlayer0,
       Card? monsterCardsPlacedOnTheFieldByPlayer1,
       Card? equipmentCardsPlacedOnTheFieldByPlayer0,
@@ -629,6 +684,13 @@ abstract class _DuelState implements DuelState {
   List<Card> get player0Deck => throw _privateConstructorUsedError;
   @override
   List<Card> get player1Deck => throw _privateConstructorUsedError;
+  @override
+  /*
+     * 手札
+     */
+  List<Card> get handful0 => throw _privateConstructorUsedError;
+  @override
+  List<Card> get handful1 => throw _privateConstructorUsedError;
   @override
   /*
      * フィールドに設置した、モンスターカード
